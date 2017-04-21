@@ -32,9 +32,6 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 		setFocusable(true);
 		setDoubleBuffered(true);
 		requestFocus();
-		
-	
-		
 		//addKeyListener(this);
 		addMouseListener(this);
 		addMouseMotionListener(this);
