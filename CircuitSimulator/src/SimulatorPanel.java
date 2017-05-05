@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -17,7 +18,10 @@ import java.awt.Color;
 public class SimulatorPanel extends JPanel implements MouseListener, MouseMotionListener{
 	public static final int WIDTH = 900;
 	public static final int HEIGHT = 600;
-	Boolean NewParts = false;
+	public static final int menu_Width = 100;
+	public static final int menu_parts_height = 50;
+	public static final int menu_text_height = 10;
+	//NewParts newParts = new NewParts();
 	PartsImage partsimage = new PartsImage();
 	ArrayList<Integer> newPartsX = new ArrayList<Integer>();
 	ArrayList<Integer> newPartsY = new ArrayList<Integer>();
@@ -40,9 +44,7 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		super.paintComponent(g2);
-		
 		initialDraw(g2);
-		
 		
 		drawNewparts(g2);
 		if (motionIndex != -1)
@@ -64,25 +66,66 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 	private void initialDraw(Graphics2D g2) {
 		int partsSize = partsimage.imageset.size();
 		for (int i = 0; i < partsSize; i++){
-		g2.drawImage(partsimage.imageset.get(i), 0, i*50, null);}
+		g2.drawImage(partsimage.imageset.get(i), 0, i*(menu_parts_height+menu_text_height) + (menu_parts_height-partsimage.imageset.get(i).getHeight()) / 2, null);
+		g2.drawString(partsimage.image_name.get(i), 0, (i+1)*(menu_parts_height+menu_text_height));
+		}
 	}
 
 	
 	
 	
 	public void checkCorPic(int x, int y){
-		if(0 < x && x < 100){
-		for (int i = 0; i < partsimage.imageset.size() ; i++)
-		{if ( i*50 < y  && y < (i+1)*50)
-			{
-				motionIndex = i;
-				break;
+		for (int i = 0; i < partsimage.get_size() ; i++)
+		{if ( i*(menu_parts_height + menu_text_height) < y  && y < (i+1)*(menu_parts_height + menu_text_height))
+				{motionIndex = i;
+				break;}
 			}
-		}}
-		/*else if ((newPartsX.size() + 1) == newPartsIndex.size() && x > 100)
-		{newPartsX.add(x);
+		}
+		/*else if ((newParts.X.size() + 1) == newPartsIndex.size() && x > 100)
+		{newParts.X.add(x);
 		newPartsY.add(y);
 		NewParts = true;}*/
+	public Boolean checkCollsion (int x, int y){
+		Boolean collision  = false;
+		for (int i = 0; i < newPartsIndex.size(); i++)
+			{
+				if (checkCorFCollsion(x,y,i))
+				{
+					collision = true;
+					JOptionPane.showMessageDialog(null, "Illegal position to release.", "Illegal Move", JOptionPane.ERROR_MESSAGE);
+	    			return collision;
+				}
+			}
+		return collision;
+	}
+	public Boolean checkCorFCollsion(int x, int y, int i){
+		Boolean collision = false;
+		ArrayList<Integer>Cor = CorOfPic(i);
+		if(
+		((x > Cor.get(0)) && (x < Cor.get(1)) 
+		&& (y > Cor.get(2)) && (y < Cor.get(3))) ||
+		(x+partsimage.imageset.get(motionIndex).getWidth() > Cor.get(0) && 
+		x+partsimage.imageset.get(motionIndex).getWidth() < Cor.get(1) &&
+		(y > Cor.get(2)) && (y < Cor.get(3))) ||
+		( (x > Cor.get(0)) && (x < Cor.get(1)) &&
+		y+partsimage.imageset.get(motionIndex).getHeight() > Cor.get(2) &&
+		y+partsimage.imageset.get(motionIndex).getHeight() < Cor.get(3)) ||
+		(x+partsimage.imageset.get(motionIndex).getWidth() > Cor.get(0) && 
+		 x+partsimage.imageset.get(motionIndex).getWidth() < Cor.get(1) &&
+		 y+partsimage.imageset.get(motionIndex).getHeight() > Cor.get(2) &&
+			y+partsimage.imageset.get(motionIndex).getHeight() < Cor.get(3))
+		){
+			collision = true;
+		}
+		return collision;
+	}
+	public ArrayList<Integer> CorOfPic(int i){
+		ArrayList<Integer> Cor= new ArrayList<Integer>();
+		Cor.add(newPartsX.get(i));
+		Cor.add(newPartsX.get(i)+partsimage.imageset.get(newPartsIndex.get(i)).getWidth());
+		Cor.add(newPartsY.get(i));
+		Cor.add(newPartsY.get(i)+partsimage.imageset.get(newPartsIndex.get(i)).getHeight());
+		return Cor;
 	}
 	
 	@Override
@@ -99,7 +142,7 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 		// TODO Auto-generated method stub
 		int x = e.getX();
 		int y = e.getY();
-		if (x>100 && motionIndex != -1){
+		if (x>menu_Width && motionIndex != -1 && !checkCollsion(x, y)){
 			newPartsIndex.add(motionIndex);
 			newPartsX.add(x);
 			newPartsY.add(y);
@@ -124,7 +167,7 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 		// TODO Auto-generated method stub
 		int x = e.getX();
 		int y = e.getY();
-		if (x < 100)
+		if (x < menu_Width)
 		{checkCorPic(x,y);}
 		motionX = x;
 		motionY = y;

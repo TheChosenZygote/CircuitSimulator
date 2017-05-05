@@ -6,17 +6,20 @@ public abstract class AbstractComponent {
 	// if multiple elements in lists, then they are all parallel
 	ArrayList<AbstractComponent> fromList = new ArrayList<>(); 
 	ArrayList<AbstractComponent> toList = new ArrayList<>();
-	Image image;
 	
+	int id;
+	// 0 = battery
+	// 1 = wire
+	// 2 = resistor
+	// 3 = 
 	double xPos;
 	double yPos;
 	final boolean isReal; // 0 if for Menu, 1 if real
 	
-	public AbstractComponent(double x, double y, boolean i, Image image) {
+	public AbstractComponent(double x, double y, boolean i) {
 		xPos = x;
 		yPos = y;
 		isReal = i;
-		this.image = image;
 	}
 	public void addFromConnection(AbstractComponent from){
 		fromList.add(from);

@@ -3,17 +3,17 @@ import java.awt.Image;
 
 public abstract class AbstractResistor extends AbstractComponent{
 	double resistance;
-	double currenct;
+	double current;
 	double volt;
-	public AbstractResistor(double x, double y, boolean i, Image image, // component
+	public AbstractResistor(double x, double y, boolean i, // component
 							double r, double c, double v) { // resistor
-		super(x, y, i, image);
+		super(x, y, i);
 		resistance = r;
-		currenct = c;
+		current = c;
 		volt = v;
 	}
-	public double getCurrenct() {
-		return currenct;
+	public double getCurrent() {
+		return current;
 	}
 	public double getResistance() {
 		return resistance;
@@ -21,8 +21,8 @@ public abstract class AbstractResistor extends AbstractComponent{
 	public double getVolt() {
 		return volt;
 	}
-	public void setCurrenct(double currenct) {
-		this.currenct = currenct;
+	public void setCurrent(double current) {
+		this.current = current;
 	}
 	public void setResistance(double resistance) {
 		this.resistance = resistance;
