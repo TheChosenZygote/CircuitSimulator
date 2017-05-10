@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.BasicStroke;
@@ -26,6 +27,7 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 	ArrayList<Integer> newPartsX = new ArrayList<Integer>();
 	ArrayList<Integer> newPartsY = new ArrayList<Integer>();
 	ArrayList<Integer> newPartsIndex = new ArrayList<Integer>();
+	int levelIndex;
 	int motionX;
 	int motionY;
 	int motionIndex = -1;
@@ -36,7 +38,6 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 		setFocusable(true);
 		setDoubleBuffered(true);
 		requestFocus();
-		//addKeyListener(this);
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
@@ -44,14 +45,13 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		super.paintComponent(g2);
-		initialDraw(g2);
-		
+		initialDraw(g2, levelIndex);
 		drawNewparts(g2);
 		if (motionIndex != -1)
 		{drawPartsNow(g2);}
 		g2.dispose();
 	}
-	
+
 	private void drawPartsNow(Graphics2D g2) {
 		// TODO Auto-generated method stub
 		g2.drawImage(partsimage.imageset.get(motionIndex), motionX, motionY, null);
@@ -63,7 +63,7 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 		
 	}
 
-	private void initialDraw(Graphics2D g2) {
+	private void initialDraw(Graphics2D g2, int levelIndex) {
 		int partsSize = partsimage.imageset.size();
 		for (int i = 0; i < partsSize; i++){
 		g2.drawImage(partsimage.imageset.get(i), 0, i*(menu_parts_height+menu_text_height) + (menu_parts_height-partsimage.imageset.get(i).getHeight()) / 2, null);
@@ -81,11 +81,7 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 				break;}
 			}
 		}
-		/*else if ((newParts.X.size() + 1) == newPartsIndex.size() && x > 100)
-		{newParts.X.add(x);
-		newPartsY.add(y);
-		NewParts = true;}*/
-	public Boolean checkCollsion (int x, int y){
+	public Boolean checkCollsion (int x, int y, int levelIndex){
 		Boolean collision  = false;
 		for (int i = 0; i < newPartsIndex.size(); i++)
 			{
@@ -103,22 +99,41 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 		ArrayList<Integer>Cor = CorOfPic(i);
 		if(
 		((x > Cor.get(0)) && (x < Cor.get(1)) 
-		&& (y > Cor.get(2)) && (y < Cor.get(3))) ||
+		&& (y > Cor.get(2)) && (y < Cor.get(3))) || // top left
 		(x+partsimage.imageset.get(motionIndex).getWidth() > Cor.get(0) && 
 		x+partsimage.imageset.get(motionIndex).getWidth() < Cor.get(1) &&
-		(y > Cor.get(2)) && (y < Cor.get(3))) ||
+		(y > Cor.get(2)) && (y < Cor.get(3))) || // top right
 		( (x > Cor.get(0)) && (x < Cor.get(1)) &&
 		y+partsimage.imageset.get(motionIndex).getHeight() > Cor.get(2) &&
-		y+partsimage.imageset.get(motionIndex).getHeight() < Cor.get(3)) ||
+		y+partsimage.imageset.get(motionIndex).getHeight() < Cor.get(3)) || //bottom left
 		(x+partsimage.imageset.get(motionIndex).getWidth() > Cor.get(0) && 
 		 x+partsimage.imageset.get(motionIndex).getWidth() < Cor.get(1) &&
 		 y+partsimage.imageset.get(motionIndex).getHeight() > Cor.get(2) &&
-			y+partsimage.imageset.get(motionIndex).getHeight() < Cor.get(3))
+			y+partsimage.imageset.get(motionIndex).getHeight() < Cor.get(3)) || // bottom right
+		(x+(partsimage.imageset.get(motionIndex).getWidth())/2 > Cor.get(0) && 
+		x+(partsimage.imageset.get(motionIndex).getWidth())/2 < Cor.get(1) &&
+		(y > Cor.get(2)) && (y < Cor.get(3))) || // top mid
+		( (x > Cor.get(0)) && (x < Cor.get(1)) &&
+		y+(partsimage.imageset.get(motionIndex).getHeight())/2 > Cor.get(2) &&
+		y+(partsimage.imageset.get(motionIndex).getHeight())/2 < Cor.get(3)) || // left mid
+		(x+(partsimage.imageset.get(motionIndex).getWidth())/2 > Cor.get(0) && 
+		x+(partsimage.imageset.get(motionIndex).getWidth())/2 < Cor.get(1) &&
+		y+partsimage.imageset.get(motionIndex).getHeight() > Cor.get(2) &&
+		y+partsimage.imageset.get(motionIndex).getHeight() < Cor.get(3)) || // bottom mid
+		(x+partsimage.imageset.get(motionIndex).getWidth() > Cor.get(0) && 
+		x+partsimage.imageset.get(motionIndex).getWidth() < Cor.get(1) &&
+		y+(partsimage.imageset.get(motionIndex).getHeight())/2 > Cor.get(2) &&
+		y+(partsimage.imageset.get(motionIndex).getHeight())/2 < Cor.get(3)) || // right mid
+		(x+(partsimage.imageset.get(motionIndex).getWidth())/2 > Cor.get(0) && 
+		x+(partsimage.imageset.get(motionIndex).getWidth())/2 < Cor.get(1) &&
+		y+(partsimage.imageset.get(motionIndex).getHeight())/2 > Cor.get(2) &&
+		y+(partsimage.imageset.get(motionIndex).getHeight())/2 < Cor.get(3)) // mid
 		){
 			collision = true;
 		}
 		return collision;
 	}
+	
 	public ArrayList<Integer> CorOfPic(int i){
 		ArrayList<Integer> Cor= new ArrayList<Integer>();
 		Cor.add(newPartsX.get(i));
@@ -142,7 +157,7 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 		// TODO Auto-generated method stub
 		int x = e.getX();
 		int y = e.getY();
-		if (x>menu_Width && motionIndex != -1 && !checkCollsion(x, y)){
+		if (x>menu_Width && motionIndex != -1 && !checkCollsion(x, y, levelIndex)){
 			newPartsIndex.add(motionIndex);
 			newPartsX.add(x);
 			newPartsY.add(y);
@@ -158,7 +173,12 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
+		if (motionIndex != -1)
+		{motionX= 0;
+		motionY = 0;
+		motionIndex = -1;
+		JOptionPane.showMessageDialog(null, "You cannot go out the frame.", "Illegal Move", JOptionPane.ERROR_MESSAGE);}
+
 		
 	}
 
