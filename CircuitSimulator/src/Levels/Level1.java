@@ -4,28 +4,22 @@ public class Level1 extends AbstractLevel{
 
 	public Level1() {
 		//SET POSITIONS HERE
-		size = 3;
+		size = 4;
 		size_r1 = 1;
 		size_r2 = 2;
-		size_s = 0;
+		size_s = 1;
 		r1remaining = size_r1;
 		r2remaining = size_r2;
 		sremaining = size_s;
+		r_wanted = 2.5;
+		this.setR(3, Double.MAX_VALUE);
 	}
 	
 	@Override
-	public boolean findRes() {
+	public double findRes() {
+		assert(isFull());
 		double finalRes;
-		for(int i=0; i<size; i++) {
-			if(r[i] == 0) {
-				System.out.println("Missing resistors");
-				return false;
-			}
-		}
-		finalRes = r[0] + 1/(1/r[1] + 1/r[2]);
-		if(finalRes == 2.5)
-			return true;
-		return false;	
+		finalRes = r.get(0) + 1/(1/r.get(1) + 1/r.get(2));
+		return finalRes;
 	}
-
 }
