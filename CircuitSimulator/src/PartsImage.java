@@ -1,3 +1,4 @@
+
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -9,31 +10,23 @@ import javax.imageio.ImageIO;
 public class PartsImage {
 	ArrayList<BufferedImage> imageset = new ArrayList<BufferedImage>();
 	ArrayList<String> image_name =new ArrayList<String>();
-	BufferedImage resistor;
-	BufferedImage On_off;
-	BufferedImage power_supply;
+	BufferedImage resistor1;
+	BufferedImage resistor2;
 	 public PartsImage(){
 		 try {
-				resistor = ImageIO.read(new File("images/Resistor.png"));
+				resistor1 = ImageIO.read(new File("images/Resistor1.png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		 try {
-				On_off = ImageIO.read(new File("images/Switch.png"));
+				resistor2 = ImageIO.read(new File("images/Resistor2.png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		 try {
-				power_supply = ImageIO.read(new File("images/Power_supply.png"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		 this.imageset.add(power_supply);
-		 this.image_name.add("Power Supply");
-		 this.imageset.add(resistor);
-		 this.image_name.add("Resistor");
-		 this.imageset.add(On_off);
-		 this.image_name.add("Switch");
+		 this.imageset.add(resistor1);
+		 this.image_name.add("1 ohm Resistor");
+		 this.imageset.add(resistor2);
+		 this.image_name.add("2 ohm Resistor");
 
 	 }
 	 public int get_size(){

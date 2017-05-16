@@ -9,6 +9,8 @@ public class Level5 extends AbstractLevel{
 		(4) Right bot: 352, 124
 		(5) switch for confirmation Integer.MIN_VALUE, Integer.MIN_VALUE
 	*/
+
+
 	@Override
 	public double findRes() {
 		// TODO Auto-generated method stub

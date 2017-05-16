@@ -1,4 +1,5 @@
 package Levels;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 // a note to front-end: notice the resetting part in setR
@@ -17,19 +18,23 @@ public abstract class AbstractLevel {
 	ArrayList<Double> r = new ArrayList<>();  // resistance for each "box"
 	ArrayList<Integer> x = new ArrayList<>(); // x position
 	ArrayList<Integer> y = new ArrayList<>(); // y position
+	// the width for confirm switch
 	static int width;
 	static int length;
 	// new game-like features: need to discuss more!
 	double r_wanted;
-	double i_wanted;
-	static int lifes;
-	int lremaining;
-	int pointsEarned;
-	int doubleHits;
+//	double i_wanted;
+//	static int lives;
+//	int lremaining;
+//	int pointsEarned;
+//	int doubleHits;
+	// corresponding images
+	ArrayList<BufferedImage> images = new ArrayList<>();
 	// constructor
-	public AbstractLevel() {
+	public AbstractLevel(int size) {
+		this.size = size;
 		for (int i = 0; i < size; i++) {
-			r.set(i,Double.MIN_VALUE);
+			r.add(Double.MIN_VALUE); 
 		}
 		width = 26;
 		length = 24;
@@ -43,18 +48,22 @@ public abstract class AbstractLevel {
 	public int getSremaining() {return sremaining;}
 	public ArrayList<Integer> getX() {return x;}
 	public ArrayList<Integer> getY() {return y;}
+	public int getX(int pos) { return x.get(pos); }
+	public int getY(int pos) { return y.get(pos); }
 	public int getSize_r1() {return size_r1; }
 	public int getSize_r2() {return size_r2; }
 	public int getSize_s() {return size_s; }
-	public int getLifes() {return lifes;}
-	public int getLremaining() {return lremaining;}
-	public int getDoubleHits() {return doubleHits;}
-	public double getI_wanted() {return i_wanted;}
+	public BufferedImage getImage(int pos){return images.get(pos);}
 	public int getLevel() {return level;}
-	public int getPointsEarned() {return pointsEarned;}
+//	public int getLives() {return lives;}
+//	public int getLremaining() {return lremaining;}
+//	public int getDoubleHits() {return doubleHits;}
+//	public double getI_wanted() {return i_wanted;}
+//	public int getPointsEarned() {return pointsEarned;}
 	
 	// set and remove
 	public boolean confirm() {
+		// called when (pos == size - 1) && (res == 0)
 		if (isFull()) {
 			if (match()) { // full and correct
 				System.out.println("Great! You got it!");
@@ -135,3 +144,4 @@ public abstract class AbstractLevel {
 		return false;
 	}
 }
+

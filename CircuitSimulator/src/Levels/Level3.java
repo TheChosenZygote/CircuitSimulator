@@ -11,10 +11,17 @@ public class Level3 extends AbstractLevel{
 	
 	public Level3() {
 		// TODO Auto-generated constructor stub
+		super(4);
+		
 	}
 	@Override
 	public double findRes() {
 		// TODO Auto-generated method stub
+
+	@Override
+	public double findRes() {
+		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 	

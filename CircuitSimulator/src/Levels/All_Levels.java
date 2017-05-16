@@ -14,7 +14,20 @@ public class All_Levels {
 				));
 	}
 	
+	
+	
 	public AbstractLevel getLevel(int i) {
+		// ...
 		return levels.get(i);
 	}
+	
+	public int getNum() {
+		return num;
+	}
+	
+	public ArrayList<AbstractLevel> getLevels() {
+		return levels;
+	}
+	
+	
 }

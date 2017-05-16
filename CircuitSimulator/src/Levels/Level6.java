@@ -1,6 +1,7 @@
 package Levels;
 
 public class Level6 extends AbstractLevel{
+<<<<<<< HEAD
 	/*
 		(0) Left top: 44, 11
 		(1) Left 2nd row: 44, 83
@@ -10,6 +11,9 @@ public class Level6 extends AbstractLevel{
 		(5) Right bot: 352, 154
 		(6) switch for confirmation Integer.MIN_VALUE, Integer.MIN_VALUE
 	*/ 
+=======
+
+>>>>>>> refs/heads/GUI1
 	@Override
 	public double findRes() {
 		// TODO Auto-generated method stub
