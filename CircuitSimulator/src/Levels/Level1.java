@@ -5,9 +5,10 @@ import java.util.Arrays;
 public class Level1 extends AbstractLevel{
 
 	/*
-		Left: 100, 93
-		Right top: 300, 45
-		Right bot: 300, 143
+		(0)Left: 100, 93
+		(1)Right top: 300, 45
+		(2)Right bot: 300, 143
+		(3)switch for confirmation Integer.MIN_VALUE, Integer.MIN_VALUE
 	 */
 	public Level1() {
 		//SET POSITIONS HERE
@@ -19,7 +20,8 @@ public class Level1 extends AbstractLevel{
 		r2remaining = size_r2;
 		sremaining = size_s;
 		r_wanted = 2.5;
-		r.addAll(Arrays.asList());
+		x.addAll(Arrays.asList(100,300,300,Integer.MIN_VALUE)); // remember to change the last one!
+		y.addAll(Arrays.asList(93,45,143,Integer.MIN_VALUE));   // same
 		this.setR(3, Double.MAX_VALUE);
 	}
 	
