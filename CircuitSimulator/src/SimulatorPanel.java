@@ -75,7 +75,7 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 		for (int i = 0; i < partsSize; i++){
 		g2.drawImage(partsimage.imageset.get(i), 0, i*(menu_parts_height+menu_text_height) + (menu_parts_height-partsimage.imageset.get(i).getHeight()) / 2, null);
 		g2.drawString(partsimage.image_name.get(i), 0, (i+1)*(menu_parts_height+menu_text_height));
-		g2.drawImage(currentLevel.getImage(), circuit_offsetX, circuit_offsetY,null);
+		g2.drawImage(currentLevel.getImage1(), circuit_offsetX, circuit_offsetY,null);
 		}
 	}
 
