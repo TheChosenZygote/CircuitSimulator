@@ -28,8 +28,12 @@ public class AbstractLevel {
 	int pointsEarned;
 	int doubleHits;
 	// constructor
+<<<<<<< HEAD
 	public AbstractLevel(int input_size) {
 		size = input_size;
+=======
+	public AbstractLevel(int size) {
+>>>>>>> branch 'GUI1' of https://github.com/TheChosenZygote/CircuitSimulator
 		for (int i = 0; i < size; i++) {
 			r.add(Double.MIN_VALUE); 
 		}
