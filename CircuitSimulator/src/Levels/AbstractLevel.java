@@ -28,7 +28,7 @@ public class AbstractLevel {
 	int pointsEarned;
 	int doubleHits;
 	// constructor
-	public AbstractLevel() {
+	public AbstractLevel(int size) {
 		for (int i = 0; i < size; i++) {
 			r.add(Double.MIN_VALUE);
 		}

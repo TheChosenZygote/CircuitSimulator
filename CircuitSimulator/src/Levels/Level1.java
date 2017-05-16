@@ -1,6 +1,10 @@
 package Levels;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+
+import javax.imageio.ImageIO;
 
 public class Level1 extends AbstractLevel{
 
@@ -12,7 +16,7 @@ public class Level1 extends AbstractLevel{
 	 */
 	public Level1() {
 		//SET POSITIONS HERE
-		super();
+		super(4);
 		size = 4;
 		size_r1 = 1;
 		size_r2 = 2;
@@ -24,6 +28,11 @@ public class Level1 extends AbstractLevel{
 		x.addAll(Arrays.asList(100,300,300,Integer.MIN_VALUE)); // remember to change the last one!
 		y.addAll(Arrays.asList(93,45,143,Integer.MIN_VALUE));   // same
 		this.setR(3, Double.MAX_VALUE);
+		try {
+			image1 = ImageIO.read(new File("images/circuit lv3 1.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
