@@ -12,7 +12,7 @@ public class Level1 extends AbstractLevel{
 	 */
 	public Level1() {
 		//SET POSITIONS HERE
-		super();
+		super(4);
 		size = 4;
 		size_r1 = 1;
 		size_r2 = 2;

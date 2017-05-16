@@ -12,6 +12,7 @@ public class Level2 extends AbstractLevel{
 	 */
 	public Level2() {
 		// TODO Auto-generated constructor stub
+		super(4);
 		size = 4;
 		
 	}
