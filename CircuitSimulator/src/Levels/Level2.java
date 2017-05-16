@@ -8,11 +8,11 @@ public class Level2 extends AbstractLevel{
 	(2)Mid: 206, 50
 	(3)Right top: 352, 12
 	(4)Right bot: 352, 124
-	(5)switch for confirmation Integer.MIN_VALUE, Integer.MIN_VALUE
+	(5)switch for confirmation:
 	 */
 	public Level2() {
 		// TODO Auto-generated constructor stub
-		size = 4;
+		
 		
 	}
 

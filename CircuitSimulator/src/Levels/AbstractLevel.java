@@ -13,10 +13,12 @@ public abstract class AbstractLevel {
 	int r1remaining;
 	int r2remaining;
 	int sremaining;
-	// for check and calculation
+	// for check and calculation and drawing
 	ArrayList<Double> r = new ArrayList<>();  // resistance for each "box"
 	ArrayList<Integer> x = new ArrayList<>(); // x position
 	ArrayList<Integer> y = new ArrayList<>(); // y position
+	static int width;
+	static int length;
 	// new game-like features: need to discuss more!
 	double r_wanted;
 	double i_wanted;
@@ -29,6 +31,8 @@ public abstract class AbstractLevel {
 		for (int i = 0; i < size; i++) {
 			r.set(i,Double.MIN_VALUE);
 		}
+		width = 26;
+		length = 24;
 	}
 	// all get functions
 	public ArrayList<Double> getR() {return r;}
@@ -51,7 +55,6 @@ public abstract class AbstractLevel {
 	
 	// set and remove
 	public boolean confirm() {
-		// called when (pos == size - 1) && (res == 0)
 		if (isFull()) {
 			if (match()) { // full and correct
 				System.out.println("Great! You got it!");
