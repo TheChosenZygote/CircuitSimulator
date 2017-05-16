@@ -28,6 +28,8 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 	public static final int circuit_offsetY = 100;
 	public static final int box_width = 100;
 	public static final int box_height = 49;
+	public static final int switchWidth = 24;
+	public static final int switchHeight = 26;
 	PartsImage partsimage = new PartsImage();
 	ArrayList<Integer> newPartsX = new ArrayList<Integer>();
 	ArrayList<Integer> newPartsY = new ArrayList<Integer>();
@@ -36,9 +38,9 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 	int motionX;
 	int motionY;
 	int motionIndex = -1;
-	
+	SwitchPanel sw = new SwitchPanel();
+	Boolean swi = false;
 	AbstractLevel currentLevel = new Level1();
-	BufferedImage level1;
 	public SimulatorPanel() {
 		super();
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -53,10 +55,13 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		super.paintComponent(g2);
-		initialDraw(g2, levelIndex);
+		initialDraw(g2, levelIndex, swi);
 		drawNewparts(g2);
 		if (motionIndex != -1)
 		{drawPartsNow(g2);}
+		sw.setBounds(currentLevel.getX(currentLevel.getSize()-1) + circuit_offsetX, currentLevel.getY(currentLevel.getSize()-1) + circuit_offsetY, switchWidth, switchHeight);	
+		sw.addMouseListener(new SwitchPanelListenser());
+		this.add(this.sw);
 		g2.dispose();
 	}
 
@@ -70,12 +75,15 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 		
 	}
 
-	private void initialDraw(Graphics2D g2, int levelIndex) {
+	private void initialDraw(Graphics2D g2, int levelIndex, Boolean swi) {
 		int partsSize = partsimage.imageset.size();
 		for (int i = 0; i < partsSize; i++){
 		g2.drawImage(partsimage.imageset.get(i), 0, i*(menu_parts_height+menu_text_height) + (menu_parts_height-partsimage.imageset.get(i).getHeight()) / 2, null);
 		g2.drawString(partsimage.image_name.get(i), 0, (i+1)*(menu_parts_height+menu_text_height));
-		g2.drawImage(currentLevel.getImage1(), circuit_offsetX, circuit_offsetY,null);
+		if (swi == false)
+		{g2.drawImage(currentLevel.getImage1(), circuit_offsetX, circuit_offsetY,null);}
+		else if (swi == true){
+		g2.drawImage(currentLevel.getImage2(), circuit_offsetX, circuit_offsetY,null);}
 		}
 	}
 
@@ -90,7 +98,7 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 			}
 		}
 	public int checkCollsion (int x, int y, AbstractLevel currentLevel){
-		for (int i = 0; i < currentLevel.getSize(); i++)
+		for (int i = 0; i < currentLevel.getSize() - currentLevel.getSize_s() ; i++)
 			{
 				if (checkCorFCollsion(x,y,i))
 				{
@@ -149,7 +157,6 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 		motionY = 0;
 		motionIndex = -1;
 		JOptionPane.showMessageDialog(null, "You cannot go out the frame.", "Illegal Move", JOptionPane.ERROR_MESSAGE);}
-
 		
 	}
 
@@ -169,5 +176,40 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	private class SwitchPanelListenser implements MouseListener{
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (swi == false)
+				{
+				boolean complete = currentLevel.confirm();
+				if (complete)
+				{JOptionPane.showMessageDialog(null, "Great! You Got it!", "Level Complete", JOptionPane.INFORMATION_MESSAGE);}
+				else if (!complete){
+				JOptionPane.showMessageDialog(null, "Whoops! Something was wrong.", "Level Incomplete", JOptionPane.INFORMATION_MESSAGE);}
+				swi = true;
+				SimulatorPanel.this.repaint();
+				}
+			else if (swi == true)
+				{//swi = false;
+			 SimulatorPanel.this.repaint();}
+		}
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+		}
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+		}
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub	
+		}
 	}
 }

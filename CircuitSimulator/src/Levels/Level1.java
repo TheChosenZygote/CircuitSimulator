@@ -25,11 +25,16 @@ public class Level1 extends AbstractLevel{
 		r2remaining = size_r2;
 		sremaining = size_s;
 		r_wanted = 2.5;
-		x.addAll(Arrays.asList(100,300,300,Integer.MIN_VALUE)); // remember to change the last one!
-		y.addAll(Arrays.asList(93,45,143,Integer.MIN_VALUE));   // same
+		x.addAll(Arrays.asList(100,300,300,487)); // remember to change the last one!
+		y.addAll(Arrays.asList(93,45,143,213));   // same
 		this.setR(3, Double.MAX_VALUE);
 		try {
 			image1 = ImageIO.read(new File("images/circuit lv3 1.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			image2 = ImageIO.read(new File("images/circuit lv3 2.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
