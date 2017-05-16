@@ -4,12 +4,12 @@ import java.util.ArrayList;
 // a note to front-end: notice the resetting part in setR
 
 public abstract class AbstractLevel {
-	static int size; 	//num for res1+res2+switch
-	static int level;
+	int size; 	//num for res1+res2+switch
+	int level;
 	// the confirmation switch is always the last one -basic level settings
-	static int size_r1; // num for resistor 1
-	static int size_r2; // num for resistor 2
-	static int size_s;	// num for switches (including the confirmation switch)
+	int size_r1; // num for resistor 1
+	int size_r2; // num for resistor 2
+	int size_s;	// num for switches (including the confirmation switch)
 	int r1remaining;
 	int r2remaining;
 	int sremaining;
@@ -35,18 +35,18 @@ public abstract class AbstractLevel {
 	public int getR1remaining() {return r1remaining;}
 	public int getR2remaining() {return r2remaining;}
 	public double getR_wanted() {return r_wanted;}
-	public static int getSize() {return size;}
+	public int getSize() {return size;}
 	public int getSremaining() {return sremaining;}
 	public ArrayList<Integer> getX() {return x;}
 	public ArrayList<Integer> getY() {return y;}
-	public static int getSize_r1() {return size_r1; }
-	public static int getSize_r2() {return size_r2; }
-	public static int getSize_s() {return size_s; }
-	public static int getLifes() {return lifes;}
+	public int getSize_r1() {return size_r1; }
+	public int getSize_r2() {return size_r2; }
+	public int getSize_s() {return size_s; }
+	public int getLifes() {return lifes;}
 	public int getLremaining() {return lremaining;}
 	public int getDoubleHits() {return doubleHits;}
 	public double getI_wanted() {return i_wanted;}
-	public static int getLevel() {return level;}
+	public int getLevel() {return level;}
 	public int getPointsEarned() {return pointsEarned;}
 	
 	// set and remove
