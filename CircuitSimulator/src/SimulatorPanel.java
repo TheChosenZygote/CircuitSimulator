@@ -34,13 +34,15 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 	ArrayList<Integer> newPartsX = new ArrayList<Integer>();
 	ArrayList<Integer> newPartsY = new ArrayList<Integer>();
 	ArrayList<Integer> newPartsIndex = new ArrayList<Integer>();
-	int levelIndex;
+	int levelIndex = 0;
 	int motionX;
 	int motionY;
 	int motionIndex = -1;
 	SwitchPanel sw = new SwitchPanel();
 	Boolean swi = false;
-	AbstractLevel currentLevel = new Level1();
+	All_Levels a_l = new All_Levels();
+	AbstractLevel currentLevel = a_l.getLevel(levelIndex);
+	Boolean sw_back = true;
 	public SimulatorPanel() {
 		super();
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -181,18 +183,39 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (swi == false)
-				{
+				{if (sw_back){
 				boolean complete = currentLevel.confirm();
 				if (complete)
-				{JOptionPane.showMessageDialog(null, "Great! You Got it!", "Level Complete", JOptionPane.INFORMATION_MESSAGE);}
+				{swi = true;
+				int choice = JOptionPane.showOptionDialog(null, "Great! You Got it!", "Level Complete", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{"Return","Level Up"}, null);
+				if (choice == 1){
+					levelIndex++;
+					currentLevel = a_l.getLevel(levelIndex);
+					gui_reset();
+					sw_back = false;
+				}
+				}
 				else if (!complete){
-				JOptionPane.showMessageDialog(null, "Whoops! Something was wrong.", "Level Incomplete", JOptionPane.INFORMATION_MESSAGE);}
-				swi = true;
+				int choice = JOptionPane.showOptionDialog(null, "Whoops! Something was wrong.", "Level Incomplete",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null, new Object[]{"Return","Try Agian"},null);
+				if (choice == 1){
+					gui_reset();
+					sw_back = false;
+				}}
+				}
+				if (!sw_back)
+					{sw_back = true;}
+				//sw_back = true;
 				SimulatorPanel.this.repaint();
 				}
 			else if (swi == true)
 				{//swi = false;
 			 SimulatorPanel.this.repaint();}
+		}
+		private void gui_reset() {
+			newPartsX.clear();
+			newPartsY.clear();
+			newPartsIndex.clear();
+			swi = false;
 		}
 		@Override
 		public void mousePressed(MouseEvent e) {
