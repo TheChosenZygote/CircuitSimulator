@@ -2,20 +2,29 @@
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import Levels.*;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 
 public class SimulatorPanel extends JPanel implements MouseListener, MouseMotionListener{
@@ -41,16 +50,31 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 	int motionIndex = -1;
 	SwitchPanel sw = new SwitchPanel();
 	Boolean swi = false;
-	All_Levels a_l = new All_Levels();
-	AbstractLevel currentLevel = a_l.getLevel(levelIndex);
+	All_Levels a_l;
+	AbstractLevel currentLevel;
 	Boolean sw_back = true;
+	ToolbarPanel toolbar = new ToolbarPanel();
 	public SimulatorPanel() {
 		super();
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		//setBackground(Color.BLACK);
 		setFocusable(true);
 		setDoubleBuffered(true);
+		try{
+		    ObjectInputStream is = new ObjectInputStream(new FileInputStream("All_Levels.ser"));
+		    a_l = (All_Levels) is.readObject();
+		    int temp = a_l.level_complete();
+		    a_l = new All_Levels();
+		    a_l.level_unlock(temp);}
+		catch (Exception ex){
+		    a_l = new All_Levels();}
+		toolbar.reset.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				gui_reset();
+			}});
+		currentLevel = a_l.getLevel(levelIndex);
 		requestFocus();
+		setBackground(Color.WHITE);
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
@@ -58,6 +82,7 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		super.paintComponent(g2);
+
 		if(gameState == 0) { // Start Screen
 			BufferedImage startScreen = null;
 			try {
@@ -237,44 +262,50 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 		// TODO Auto-generated method stub
 		
 	}
+	private void gui_reset() {
+		newPartsX.clear();
+		newPartsY.clear();
+		newPartsIndex.clear();
+		swi = false;
+		this.repaint();
+	}
 	private class SwitchPanelListenser implements MouseListener{
 		@Override
 		public void mouseClicked(MouseEvent e) {
+//			if (sw_back==true){
 			if (swi == false)
-				{if (sw_back){
+				{swi = true;
+				SimulatorPanel.this.repaint();
 				boolean complete = currentLevel.confirm();
 				if (complete)
-				{swi = true;
+				{
 				int choice = JOptionPane.showOptionDialog(null, "Great! You Got it!", "Level Complete", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{"Return","Level Up"}, null);
 				if (choice == 1){
+					sw_back = false;
 					levelIndex++;
 					currentLevel = a_l.getLevel(levelIndex);
-					gui_reset();
-					sw_back = false;
-				}
+					a_l.level_unlock(levelIndex+1);
+					try{
+						FileOutputStream fos = new FileOutputStream("All_Levels.ser");
+						ObjectOutputStream os = new ObjectOutputStream(fos);
+						os.writeObject(a_l);
+						os.close();}
+						catch(IOException ex){ex.printStackTrace();}
+					gui_reset();}
 				}
 				else if (!complete){
-				int choice = JOptionPane.showOptionDialog(null, "Whoops! Something was wrong.", "Level Incomplete",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null, new Object[]{"Return","Try Agian"},null);
-				if (choice == 1){
+				int choice = JOptionPane.showOptionDialog(null, "Whoops! Something was wrong.", "Level Incomplete",JOptionPane.DEFAULT_OPTION,JOptionPane.ERROR_MESSAGE,null, new Object[]{"Try Agian"},null);
+				if (choice == 0){
 					gui_reset();
-					sw_back = false;
 				}}
-				}
-				if (!sw_back)
-					{sw_back = true;}
-				//sw_back = true;
-				SimulatorPanel.this.repaint();
 				}
 			else if (swi == true)
 				{//swi = false;
 			 SimulatorPanel.this.repaint();}
+//			else if (sw_back == false)
+//			{sw_back = true;}
 		}
-		private void gui_reset() {
-			newPartsX.clear();
-			newPartsY.clear();
-			newPartsIndex.clear();
-			swi = false;
-		}
+		
 		@Override
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
