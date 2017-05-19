@@ -1,10 +1,11 @@
 package Levels;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 // a note to front-end: notice the resetting part in setR
 
-public class AbstractLevel {
+public class AbstractLevel{
 	int size; 	//num for res1+res2+switch
 	int level;
 	// the confirmation switch is always the last one -basic level settings
@@ -23,10 +24,6 @@ public class AbstractLevel {
 	// new game-like features: need to discuss more!
 	double r_wanted;
 	double i_wanted;
-	static int lifes;
-	int lremaining;
-	int pointsEarned;
-	int doubleHits;
 	// constructor
 	public AbstractLevel(int size) {
 		for (int i = 0; i < size; i++) {
@@ -49,12 +46,6 @@ public class AbstractLevel {
 	public int getSize_s() {return size_s; }
 	public BufferedImage getImage1(){return image1;}
 	public BufferedImage getImage2(){return image2;}
-	public int getLifes() {return lifes;}
-	public int getLremaining() {return lremaining;}
-	public int getDoubleHits() {return doubleHits;}
-	public double getI_wanted() {return i_wanted;}
-	public int getLevel() {return level;}
-	public int getPointsEarned() {return pointsEarned;}
 	
 	// set and remove
 	public boolean confirm() {

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class All_Levels implements Serializable{
-	private ArrayList<AbstractLevel> levels = new ArrayList<>();
+	private transient ArrayList<AbstractLevel> levels = new ArrayList<>();
 	final int num = 9; 
 	int levelcomplete;// number of levels
 	public All_Levels() {
@@ -24,6 +24,9 @@ public class All_Levels implements Serializable{
 	public void level_unlock(int i){
 		if (i>levelcomplete){
 		levelcomplete = i;}
+	}
+	public int level_complete(){
+	return levelcomplete;
 	}
 	
 }

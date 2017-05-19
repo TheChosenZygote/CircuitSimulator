@@ -61,7 +61,10 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 		setDoubleBuffered(true);
 		try{
 		    ObjectInputStream is = new ObjectInputStream(new FileInputStream("All_Levels.ser"));
-		    a_l = (All_Levels) is.readObject();}
+		    a_l = (All_Levels) is.readObject();
+		    int temp = a_l.level_complete();
+		    a_l = new All_Levels();
+		    a_l.level_unlock(temp);}
 		catch (Exception ex){
 		    a_l = new All_Levels();}
 		toolbar.reset.addActionListener(new ActionListener(){
@@ -70,6 +73,7 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 			}});
 		currentLevel = a_l.getLevel(levelIndex);
 		requestFocus();
+		setBackground(Color.WHITE);
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
@@ -206,10 +210,12 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 		newPartsY.clear();
 		newPartsIndex.clear();
 		swi = false;
+		this.repaint();
 	}
 	private class SwitchPanelListenser implements MouseListener{
 		@Override
 		public void mouseClicked(MouseEvent e) {
+//			if (sw_back==true){
 			if (swi == false)
 				{swi = true;
 				SimulatorPanel.this.repaint();
@@ -218,6 +224,7 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 				{
 				int choice = JOptionPane.showOptionDialog(null, "Great! You Got it!", "Level Complete", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{"Return","Level Up"}, null);
 				if (choice == 1){
+					sw_back = false;
 					levelIndex++;
 					currentLevel = a_l.getLevel(levelIndex);
 					a_l.level_unlock(levelIndex+1);
@@ -230,15 +237,16 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 					gui_reset();}
 				}
 				else if (!complete){
-				int choice = JOptionPane.showOptionDialog(null, "Whoops! Something was wrong.", "Level Incomplete",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null, new Object[]{"Try Agian"},null);
+				int choice = JOptionPane.showOptionDialog(null, "Whoops! Something was wrong.", "Level Incomplete",JOptionPane.DEFAULT_OPTION,JOptionPane.ERROR_MESSAGE,null, new Object[]{"Try Agian"},null);
 				if (choice == 0){
 					gui_reset();
-					SimulatorPanel.this.repaint();
 				}}
 				}
 			else if (swi == true)
 				{//swi = false;
 			 SimulatorPanel.this.repaint();}
+//			else if (sw_back == false)
+//			{sw_back = true;}
 		}
 		
 		@Override
