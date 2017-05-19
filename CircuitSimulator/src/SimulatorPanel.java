@@ -43,6 +43,7 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 	ArrayList<Integer> newPartsX = new ArrayList<Integer>();
 	ArrayList<Integer> newPartsY = new ArrayList<Integer>();
 	ArrayList<Integer> newPartsIndex = new ArrayList<Integer>();
+	int gameState = 0;
 	int levelIndex = 0;
 	int motionX;
 	int motionY;
@@ -81,16 +82,50 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		super.paintComponent(g2);
-		initialDraw(g2, levelIndex, swi);
-		drawNewparts(g2);
-		if (motionIndex != -1)
-		{drawPartsNow(g2);}
-		sw.setBounds(currentLevel.getX(currentLevel.getSize()-1) + circuit_offsetX, currentLevel.getY(currentLevel.getSize()-1) + circuit_offsetY, switchWidth, switchHeight);	
-		sw.addMouseListener(new SwitchPanelListenser());
-		this.add(this.sw);
-		toolbar.setBounds(800, 100, 100, 500);
-		this.add(this.toolbar);
-		g2.dispose();
+
+		if(gameState == 0) { // Start Screen
+			BufferedImage startScreen = null;
+			try {
+				startScreen = ImageIO.read(new File("images/StartScreen.png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}			
+			g2.drawImage(startScreen, 0, 0, null);
+		}
+		else if(gameState == 1) { // Start menu
+			BufferedImage menu = null;
+			try {
+				menu = ImageIO.read(new File("images/Menu.png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}			
+			g2.drawImage(menu, 0, 0, null);
+		}
+		else if(gameState == 2 ) { // New Game
+			initialDraw(g2, levelIndex, swi);
+			drawNewparts(g2);
+			if (motionIndex != -1)
+			{drawPartsNow(g2);}
+			sw.setBounds(currentLevel.getX(currentLevel.getSize()-1) + circuit_offsetX, currentLevel.getY(currentLevel.getSize()-1) + circuit_offsetY, switchWidth, switchHeight);	
+			sw.addMouseListener(new SwitchPanelListenser());
+			this.add(this.sw);
+			g2.dispose();
+		}
+		else if(gameState == 3) { // Continue Game
+			
+		}
+		else if(gameState == 4) { // Level Select
+			BufferedImage menu = null;
+			try {
+				menu = ImageIO.read(new File("images/LevelSelectLocked1.png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}			
+			g2.drawImage(menu, 0, 0, null);
+		}
+		else if(gameState == 5) { // Exit
+			System.exit(0);
+		}
 	}
 
 	private void drawPartsNow(Graphics2D g2) {
@@ -148,6 +183,28 @@ public class SimulatorPanel extends JPanel implements MouseListener, MouseMotion
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if(gameState == 0) {
+			gameState = 1;
+		}
+		else if(gameState == 1) {
+			if(e.getX() > 230 && e.getX() < 670 && e.getY() > 140 && e.getY() < 219) {
+				gameState = 2;
+			}
+			else if(e.getX() > 230 && e.getX() < 670 && e.getY() > 250 && e.getY() < 329) {
+				gameState = 3;
+			}
+			else if(e.getX() > 230 && e.getX() < 670 && e.getY() > 360 && e.getY() < 439) {
+				gameState = 4;
+			}
+			else if(e.getX() > 230 && e.getX() < 670 && e.getY() > 470 && e.getY() < 549) {
+				gameState = 5;
+			}
+		}
+		else if (gameState == 4) {
+			if(e.getX() > 29 && e.getX() < 246 && e.getY() > 508 && e.getY() < 576) {
+				gameState = 1;
+			}
+		}
 		// TODO Auto-generated method stub	
 	}
 	@Override
