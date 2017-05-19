@@ -1,11 +1,13 @@
 package Levels;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class All_Levels {
+public class All_Levels implements Serializable{
 	private ArrayList<AbstractLevel> levels = new ArrayList<>();
-	final int num = 9; // number of levels
+	final int num = 9; 
+	int levelcomplete;// number of levels
 	public All_Levels() {
 		levels.addAll(Arrays.asList(
 				new Level1(), new Level2()
@@ -13,9 +15,15 @@ public class All_Levels {
 //				new Level4(), new Level5(), new Level6(), 
 //				new Level7(), new Level8(), new Level9()
 				));
+		levelcomplete = 0;
 	}
 	
 	public AbstractLevel getLevel(int i) {
 		return levels.get(i);
 	}
+	public void level_unlock(int i){
+		if (i>levelcomplete){
+		levelcomplete = i;}
+	}
+	
 }

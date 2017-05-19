@@ -61,18 +61,18 @@ public class AbstractLevel {
 		// called when (pos == size - 1) && (res == 0)
 		if (isFull()) {
 			if (match()) { // full and correct
-				System.out.println("Great! You got it!");
+				//System.out.println("Great! You got it!");
 				// ... level up maybe?
 				return true;
 			}
 			else { // full, but not the exact circuit I want
-				System.out.println("Whoops! Something was wrong.");
+				//System.out.println("Whoops! Something was wrong.");
 				// ... punishment?
 				return false;
 			}
 		}
 		else { // not full yet
-			System.out.println("Whoops! You haven't finished the circuit yet.");
+			//System.out.println("Whoops! You haven't finished the circuit yet.");
 			// ... punishment? 
 			return false;
 		}
